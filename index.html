@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f7fb">
+  <title>משימות — לוח הבקרה שלך</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="ניווט ראשי">
+      <a class="brand" href="#ראשי" aria-label="משימות, ראשי">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12.5 4.3 4.2L19.5 6.8"/></svg></span>
+        <span>משימות<span class="brand-dot">.</span></span>
+      </a>
+      <div class="sidebar-label">סביבת עבודה</div>
+      <nav class="main-nav">
+        <a class="nav-link active" href="#ראשי" aria-current="page"><span class="nav-icon">▦</span> לוח הבקרה</a>
+        <a class="nav-link" href="#רשימת-המשימות" data-nav-filter="all"><span class="nav-icon">☷</span> כל המשימות <span class="nav-count" id="nav-total">0</span></a>
+        <a class="nav-link" href="#רשימת-המשימות" data-nav-filter="active"><span class="nav-icon">◷</span> משימות פעילות</a>
+        <a class="nav-link" href="#רשימת-המשימות" data-nav-filter="completed"><span class="nav-icon">✓</span> משימות שהושלמו</a>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="quote-card">
+          <span class="quote-spark">✦</span>
+          <p>הדרך הטובה ביותר להתחיל היא להפסיק לדבר ולהתחיל לעשות.</p>
+          <span class="quote-author">— וולט דיסני</span>
+        </div>
+        <div class="profile">
+          <div class="avatar" aria-hidden="true">א</div>
+          <div class="profile-copy"><strong>המרחב האישי שלי</strong><span>כל המשימות שלך במקום אחד</span></div>
+          <span class="profile-menu" aria-hidden="true">···</span>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content" id="ראשי">
+      <header class="topbar">
+        <div class="breadcrumbs"><span>סביבת עבודה</span><span class="crumb-sep">/</span><strong>לוח הבקרה</strong></div>
+        <div class="topbar-actions">
+          <span class="today-label" id="today-label"></span>
+          <span class="top-avatar" aria-label="הפרופיל שלי">א</span>
+        </div>
+      </header>
+
+      <section class="welcome-row">
+        <div>
+          <div class="eyebrow"><span class="live-dot"></span> סביבת העבודה שלך</div>
+          <h1>הדברים הטובים מתחילים כאן<span class="heading-spark">✳</span></h1>
+          <p class="welcome-subtitle">בואו נעשה סדר ביום שלכם, משימה אחר משימה.</p>
+        </div>
+        <button class="button button-primary" id="add-task-button" type="button"><span class="plus-icon">＋</span> משימה חדשה</button>
+      </section>
+
+      <section class="stats-grid" aria-label="סיכום המשימות">
+        <article class="stat-card stat-total"><div class="stat-top"><span class="stat-icon purple-icon">☷</span><span class="stat-caption">הכול במקום אחד</span></div><p class="stat-number" id="stat-total">0</p><h2>סך כל המשימות</h2><div class="stat-foot"><span class="mini-dot purple-dot"></span> מאז שהתחלת</div></article>
+        <article class="stat-card stat-active"><div class="stat-top"><span class="stat-icon blue-icon">◷</span><span class="stat-caption">בקצב שלך</span></div><p class="stat-number" id="stat-active">0</p><h2>משימות פעילות</h2><div class="stat-foot"><span class="mini-dot blue-dot"></span> עוד צעד קדימה</div></article>
+        <article class="stat-card stat-completed"><div class="stat-top"><span class="stat-icon green-icon">✓</span><span class="stat-caption">כל הכבוד!</span></div><p class="stat-number" id="stat-completed">0</p><h2>משימות שהושלמו</h2><div class="stat-foot"><span class="mini-dot green-dot"></span><span id="completion-text">כל הישג מתחיל בצעד</span></div></article>
+      </section>
+
+      <section class="overdue-summary all-clear" id="overdue-summary" role="status" aria-live="polite">
+        <span class="overdue-summary-icon" aria-hidden="true">!</span>
+        <div class="overdue-summary-copy"><strong><span id="overdue-count">0</span> משימות באיחור</strong><span id="overdue-message">כל המשימות עומדות בתכנון</span></div>
+        <a href="#רשימת-המשימות" class="overdue-summary-link">מעבר למשימות <span aria-hidden="true">←</span></a>
+      </section>
+
+      <section class="progress-card" aria-label="התקדמות המשימות">
+        <div class="progress-heading"><div><span class="progress-icon" aria-hidden="true">↗</span><div><h2>ההתקדמות שלי</h2><p id="progress-text">עדיין אין משימות שהושלמו</p></div></div><strong id="progress-percent">0%</strong></div>
+        <div class="progress-track" role="progressbar" aria-label="אחוז המשימות שהושלמו" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress-track"><span id="progress-fill"></span></div>
+      </section>
+
+      <section class="tasks-panel" id="רשימת-המשימות">
+        <div class="panel-heading">
+          <div><div class="eyebrow panel-eyebrow">המרחב האישי שלי</div><h2>המשימות שלי</h2><p>הדברים החשובים שלך, מתקדמים בכל יום.</p></div>
+          <div class="panel-tools">
+            <label class="search-box"><span aria-hidden="true">⌕</span><input id="search-input" type="search" placeholder="חיפוש משימה..." aria-label="חיפוש משימה"><kbd>⌘ K</kbd></label>
+            <label class="sort-select-label" for="sort-select">מיון לפי
+              <select class="sort-select" id="sort-select" aria-label="מיון משימות">
+                <option value="due-asc">תאריך יעד – הקרוב ביותר קודם</option>
+                <option value="priority">עדיפות – גבוהה תחילה</option>
+                <option value="due-desc">תאריך יעד – הרחוק ביותר קודם</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <div class="filter-bar" role="tablist" aria-label="סינון משימות">
+          <button class="filter-tab selected" type="button" role="tab" aria-selected="true" data-filter="all">כל המשימות <span class="filter-count" id="count-all">0</span></button>
+          <button class="filter-tab" type="button" role="tab" aria-selected="false" data-filter="active">משימות פעילות <span class="filter-count" id="count-active">0</span></button>
+          <button class="filter-tab" type="button" role="tab" aria-selected="false" data-filter="completed">משימות שהושלמו <span class="filter-count" id="count-completed">0</span></button>
+        </div>
+        <div class="task-filters" aria-label="סינון לפי עדיפות וקטגוריה">
+          <label class="filter-select-label" for="priority-filter">עדיפות
+            <select class="filter-select" id="priority-filter"><option value="all">כל העדיפויות</option><option value="high">גבוהה</option><option value="medium">בינונית</option><option value="low">נמוכה</option></select>
+          </label>
+          <label class="filter-select-label" for="category-filter">קטגוריה
+            <select class="filter-select" id="category-filter"><option value="all">כל הקטגוריות</option><option value="studies">לימודים</option><option value="work">עבודה</option><option value="personal">אישי</option><option value="home">בית</option></select>
+          </label>
+        </div>
+        <div class="task-list" id="task-list" aria-live="polite"></div>
+        <div class="panel-footer"><span id="list-summary">מציגות 0 משימות</span><span><span class="footer-spark">✦</span> צעד קטן, התקדמות גדולה</span></div>
+      </section>
+      <footer class="page-footer">נבנה בשביל הדברים שחשובים לך <span>♥</span></footer>
+    </main>
+  </div>
+
+  <dialog class="task-dialog" id="task-dialog" aria-labelledby="dialog-title">
+    <form id="task-form" novalidate>
+      <div class="dialog-header"><div><div class="eyebrow">המרחב האישי שלי</div><h2 id="dialog-title">משימה חדשה</h2></div><button class="icon-button close-button" type="button" id="close-dialog" aria-label="סגירה">×</button></div>
+      <input type="hidden" id="task-id">
+      <label class="field-label" for="task-title">מה צריך לעשות? <span>*</span></label>
+      <input class="form-input" id="task-title" name="title" maxlength="100" placeholder="למשל: לסיים את המצגת" required autocomplete="off">
+      <div class="field-error" id="title-error" aria-live="polite"></div>
+      <label class="field-label" for="task-description">עוד פרטים <small>לא חובה</small></label>
+      <textarea class="form-input description-input" id="task-description" name="description" maxlength="300" rows="3" placeholder="הוסיפו כמה מילים שיעזרו לכם לזכור..."></textarea>
+      <div class="field-grid">
+        <div><label class="field-label" for="task-category">קטגוריה</label><select class="form-input select-input" id="task-category" name="category"><option value="studies">לימודים</option><option value="work">עבודה</option><option value="personal" selected>אישי</option><option value="home">בית</option></select></div>
+        <div><label class="field-label" for="task-priority">עדיפות</label><select class="form-input select-input" id="task-priority" name="priority"><option value="high">גבוהה</option><option value="medium" selected>בינונית</option><option value="low">נמוכה</option></select></div>
+      </div>
+      <div class="form-bottom-row"><div class="date-field"><label class="field-label" for="task-due-date">תאריך יעד <small>לא חובה</small></label><input class="form-input date-input" id="task-due-date" name="dueDate" type="date"></div>
+        <div class="dialog-actions"><button class="button button-quiet" type="button" id="cancel-dialog">ביטול</button><button class="button button-primary" type="submit" id="save-task-button">שמירת משימה</button></div>
+      </div>
+    </form>
+  </dialog>
+  <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>
